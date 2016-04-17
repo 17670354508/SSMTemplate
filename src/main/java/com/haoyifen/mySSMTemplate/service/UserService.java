@@ -14,8 +14,13 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-
     public User getUserById(int userId){
         return this.userMapper.selectByPrimaryKey(userId);
+    }
+
+    public  void insertUser(){
+        User user=new User();
+        user.setPhoneNumber("199311");
+        userMapper.insert(user);
     }
 }

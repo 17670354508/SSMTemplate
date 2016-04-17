@@ -10,8 +10,11 @@
                         http://www.springframework.org/schema/context
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!-- 自动扫描 -->
-    <context:component-scan base-package="com.haoyifen.mySSMTemplate"/>
+    <!-- 自动扫描 ,忽略@Controller注解的类-->
+    <context:component-scan base-package="com.haoyifen.mySSMTemplate">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
+    </context:component-scan>
+
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:jdbc.properties"></property>
@@ -52,15 +55,16 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
 
-    <!--<aop:config>-->
-        <!--<aop:pointcut id="serviceMethod" expression="execution(* com.haoyifen.mySSMTemplateSMTemplate.service.UserService.*(..))"></aop:pointcut>-->
-        <!--<aop:advisor advice-ref="interceptor" pointcut-ref="serviceMethod"></aop:advisor>-->
-    <!--</aop:config>-->
+    <tx:advice id="interceptor" transaction-manager="transactionManger">
+        <tx:attributes>
+            <tx:method name="get*"  propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
 
-    <!--<tx:advice id="interceptor" transaction-manager="transactionManger">-->
-        <!--<tx:attributes>-->
-            <!--<tx:method name="get*" isolation="DEFAULT" read-only="true" />-->
-        <!--</tx:attributes>-->
-    <!--</tx:advice>-->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="serviceMethod" expression="execution(* com.haoyifen.mySSMTemplate.service..*(..))" ></aop:pointcut>
+        <aop:advisor advice-ref="interceptor" pointcut-ref="serviceMethod"></aop:advisor>
+    </aop:config>
+
 </beans>
 

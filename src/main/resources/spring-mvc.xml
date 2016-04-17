@@ -13,7 +13,8 @@
     <!--<mvc:default-servlet-handler/>-->
 
     <!--自动扫描该包，使spring-mvc认为用@controller注解的类为控制器-->
-    <context:component-scan base-package="com.haoyifen.mySSMTemplate.controller"></context:component-scan>
+    <context:component-scan base-package="com.haoyifen.mySSMTemplate.controller">
+    </context:component-scan>
 
     <!--&lt;!&ndash;避免IE执行AJAX时，返回JSON出现下载文件 &ndash;&gt;-->
     <!--<bean id="mappingJacksonHttpMessageConverter"-->

@@ -2,6 +2,7 @@ package com.haoyifen.mySSMTemplate.controller;
 
 import com.haoyifen.mySSMTemplate.dao.UserMapper;
 import com.haoyifen.mySSMTemplate.pojo.User;
+import com.haoyifen.mySSMTemplate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,14 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserMapper userMapper;
+  private UserService userService;
 
     @RequestMapping("/showUser")
     public String toIndex(HttpServletRequest request, Model model) {
         int userId = Integer.parseInt(request.getParameter("id"));
-        User user = this.userMapper.selectByPrimaryKey(userId);
+        User user = this.userService.getUserById(userId);
         System.out.println("成功了" + userId+user);
         return "showUser";
+    }
+
+    public void insertUser(){
+
     }
 }
 
