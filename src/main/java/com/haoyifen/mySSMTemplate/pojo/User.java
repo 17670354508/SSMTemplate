@@ -1,6 +1,7 @@
 package com.haoyifen.mySSMTemplate.pojo;
 
 public class User {
+    //1
     private Integer id;
 
     private String userId;
